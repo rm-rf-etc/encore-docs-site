@@ -1,0 +1,45 @@
+
+    <div class='body-area'>
+
+        <h1 class='huge'>RESTController</h1>
+
+        <div class='section'>
+
+            <p>Controllers...</p>
+            <p>Still have yet to fill this in...</p>
+        </div>
+
+        <div class='section'>
+            <div class='code'>
+<pre>
+<em class='cm'>// ./app/controllers/home.js</em>
+
+module.exports <em class='op'>=</em> <em class='obj'>function</em>(<em class='args'>_, views, models, filters, controllers, RESTController</em>){
+
+<em class='cm'>// 'i' for 'input': request object
+// 'o' for 'output': response object
+// 'a' for 'arguments': route parameters
+// 'r' for 'routing': methods provided by the router</em>
+
+    controllers.index <em class='op'>=</em> <em class='fn'>RESTController</em>({
+
+        filters: [filters.isAuth, filters.isMobile],
+
+        <em class='fn'>get</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.end(<em class='str'>'get request'</em>)
+        },
+        <em class='fn'>post</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.end(<em class='str'>'post request'</em>)
+        },
+        <em class='fn'>put</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.end(<em class='str'>'put request'</em>)
+        },
+        <em class='fn'>delete</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.end(<em class='str'>'delete request'</em>)
+        }
+    })
+}
+</pre>
+            </div>
+        </div>
+    </div>

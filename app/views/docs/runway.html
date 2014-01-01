@@ -1,0 +1,136 @@
+
+    <div class='body-area'>
+
+        <h1 class='huge'>Runway</h1>
+
+        <div class='section'>
+            <p>Runway is a performance-oriented router. The syntax was devised with readability in mind.
+            A declarative routes file is valuable for communication between developers, and maintains
+            flexibility when the client changes his/her mind (which they always do). Runway encourages
+            a centralized routes file as a best practice, but you can certainly define your routes
+            wherever you prefer, even after the server has started.</p>
+
+            <p>Runway is
+            <a href='http://npmjs.org/package/runway' target='_blank'>available through npm</a>.
+            </p>
+        </div>
+
+
+
+        <div class='section'>
+            <h2>Basic Usage</h2>
+            <p>Assuming you define 'router' and 'controllers'...</p>
+            <div class='code'>
+<pre>
+<em class='obj'>var</em> controllers <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'./app/controllers.js'</em>)
+<em class='obj'>var</em> router <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'runway'</em>)
+</pre>
+            </div>
+        </div>
+
+        <div class='section'>
+            <p>...then the following examples can be done.</p>
+            <div class='code'>
+<pre>
+<em class='fn'>router</em>
+( <em class='str'>'/home/'</em>, controllers.index )
+( <em class='str'>'/things/'</em>, controllers.things )
+( <em class='str'>'/places/'</em>, controllers.places )
+
+<em class='obj'>var</em> server <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'http'</em>).<em class='fn'>createServer</em>(router.listener)
+<em class='cm'>// In encore though, this step is already done for you.</em>
+
+server.<em class='fn'>listen</em>(<em class='kw'>80</em>) <em class='cm'>// For port 80, invoke using sudo.</em>
+</pre>
+            </div>
+        </div>
+
+
+
+        <div class='section'>
+            <h2>Route Groups</h2>
+            <p>Multiple routes can share a common base path without you needing to write it out for
+            each individual route.</p>
+            <div class='code'>
+<pre>
+<em class='fn'>router</em>
+( <em class='str'>'/home/'</em>, controllers.index )
+
+.<em class='fn'>group</em>(<em class='str'>'/home/'</em>)
+    ( <em class='str'>'/things/'</em>, controllers.things ) <em class='cm'>// /home/things</em>
+    ( <em class='str'>'/places/'</em>, controllers.places ) <em class='cm'>// /home/places</em>
+</pre>
+            </div>
+        </div>
+
+        <div class='section'>
+            <p>And they allow each route to share a default set of filters, and a default controller.</p>
+            <div class='code'>
+<pre>
+<em class='cm'>
+// filters...
+// For more on the arguments convention, see controllers.
+</em>
+<em class='obj'>function</em> isAuth(<em class='args'>i,o,a,r,next</em>){
+    <em class='cm'>// auth logic goes here</em>
+    <em class='fn'>next</em>()
+}
+<em class='obj'>function</em> isMobile(<em class='args'>i,o,a,r,next</em>){
+    <em class='obj'>if</em> (<em class='reg'>/<em class='p'>mobile</em>/<em class='p'>gi</em></em>.<em class='fn'>test</em>(i[<em class='str'>'user-agent'</em>]))
+        r.<em class='fn'>i_redirect</em>(controllers.mobile)
+    <em class='fn'>next</em>()
+}
+
+router
+.<em class='fn'>group</em>(<em class='str'>'/home/'</em>, [isAuth, isMobile], controllers.index) <em class='cm'>// Default controller.</em>
+    ( <em class='str'>'/things/'</em>, controllers.things ) <em class='cm'>// Override default controller.</em>
+    ( <em class='str'>'/places/'</em>, controllers.places ) <em class='cm'>// Override default controller.</em>
+    ( <em class='str'>'/people/'</em> ) <em class='cm'>// Use default controller.</em>
+
+<em class='cm'>// Requests go first to isAuth, then isMobile, then the controller.</em>
+</pre>
+            </div>
+        </div>
+
+
+        <div class='section'>
+            <h2>Controller Action Routing</h2>
+            <p>Route filters can be used to create the same functionality as controller action routing,
+            a feature that is popular in other frameworks. We take the route parameters and look for a
+            controller and method which match.</p>
+
+            <div class='code'>
+<pre>
+<em class='cm'>// ./app/routes.js</em>
+
+module.exports <em class='op'>=</em> <em class='obj'>function</em>(<em class='args'>_, router, controllers</em>){
+
+    <em class='cm'>// filter</em>
+    <em class='obj'>function</em> toAction(<em class='args'>i,o,a,r,next</em>){
+
+        <em class='cm'>// Look for a property chain matching the sequence in the route parameters.</em>
+        <em class='obj'>var</em> fn <em class='op'>=</em> _.<em class='fn'>reduce</em>(a,<em class='obj'>function</em>(<em class='args'>cumulate, each</em>){
+            <em class='obj'>return</em> (_.<em class='fn'>has</em>(cumulate, each)) <em class='obj'>?</em> cumulate[each] <em class='obj'>:</em> <em class='kw'>undefined</em>
+        }, controllers)
+
+        <em class='obj'>if</em> (fn) {
+            r.<em class='fn'>i_redirect</em>(fn)
+            <em class='fn'>next</em>()
+        }
+        <em class='obj'>else</em>
+            r.<em class='fn'>error</em>(<em class='kw'>404</em>)
+    }
+
+    <em class='cm'>// A controller to use...
+    // (should never get called, but runway requires a controller)</em>
+    <em class='obj'>function</em> error404(<em class='args'>i,o,a,r</em>){
+        r.<em class='fn'>error</em>(<em class='kw'>404</em>)
+    }
+
+    <em class='fn'>router</em>(<em class='str'>'/{any}/{any}/'</em>, [toAction], error404)
+}
+</pre>
+            </div>
+        </div>
+
+    </div>

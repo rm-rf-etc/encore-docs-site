@@ -1,0 +1,69 @@
+
+	<div class='body-area'>
+        <div class='section'>
+    		<h1 class='huge'>Encore</h1>
+    		<h2 class=' '>A modular server-side MVC for node.js</h2>
+        </div>
+
+        <div class='section'>
+            <h2>Hello World</h2>
+            <div class='code'>
+<pre>
+<em class='cm'>// Your main.js</em>
+<em class='fn'>require</em>(<em class='str'>'encore'</em>)(<em class='obj'>function</em>(<em class='args'>router, server</em>){
+
+    <em class='fn'>router</em>(<em class='str'>'/'</em>, <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+        o.<em class='fn'>end</em>(<em class='str'>'hello world'</em>)
+    })
+
+    server.<em class='fn'>listen</em>(<em class='kw'>8080</em>)
+})
+<em class='cm'>// Find more examples in the How-To's section.</em>
+</pre>
+            </div>
+        </div>
+        <div class='section'>
+            <a href="https://nodei.co/npm/encore/"><img src="https://nodei.co/npm/encore.png?downloads=true&stars=true"></a>
+
+            <p>The Encore project is open for contribution. Please find the design doc in the repo.<br>
+            <a href='http://github.com/rm-rf-etc/encore'
+                alt='Link to the github repo for the encore project'
+                target='_blank'>http://github.com/rm-rf-etc/encore</a></p>
+
+            <p>This site is running on Encore. Find the full project on github here:<br>
+            <a href='http://github.com/rm-rf-etc/encore-docs'
+                alt='Link to the github repo for this site'
+                target='_blank'>http://github.com/rm-rf-etc/encore-docs</a></p>
+        </div>
+
+		<div class='section'>
+			<p><i>This documentation is still a work in progress.</i></p>
+			
+			<p>Encore is a project to build a very clean and easy to read, easy to use server-side
+			node.js framework, adhering to javascript best practices within the CommonJS module
+			architecture. The primary motivating principles are:</p>
+			<ul class='list'>
+				<li>DRY</li>
+				<li>SRP</li>
+				<li>Uncluttered</li>
+				<li>Convention over configuration.</li>
+			</ul>
+			<p></p>
+		</div>
+
+		<div class='section'>
+			<h2>Features Overview</h2>
+
+            <ul class='list'>
+                <li>Inversion of control dependency loading</li>
+                <li>Cleanest routing syntax ever</li>
+                <li>Route groups</li>
+                <li>Route wildcards</li>
+                <li>RESTful controllers</li>
+                <li>Filters on routes or controllers</li>
+                <li>View templating <em class='i'>(any 3rd party templating library)</em></li>
+                <li>Performance optimized view rendering</li>
+                <li>Flexible recursive project loading</li>
+            </ul>
+		</div>
+	</div>

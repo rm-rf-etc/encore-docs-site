@@ -1,0 +1,81 @@
+
+    <div class='body-area'>
+
+        <h1 class='huge'>Easyioc</h1>
+
+        <div class='section'>
+            <p>Easyioc is an Inversion of Control container module,
+            <a href='http://npmjs.org/package/easyioc' target='_blank'>available through npm</a>.
+            Easyioc is the glue that puts everything in the framework together, including all of
+            your project files. You simply add any function (or object) to the IoC container, and
+            it will be executed and stored in the list of available modules. For every argument of
+            a function added to the IoC container, Easyioc will attempt to find a corresponding
+            module having that exact name, and provide that module as the matching parameter.</p>
+
+            <p>All modules available from the framework by default are listed
+            <a href='/docs/modules'>here</a>.</p>
+        </div>
+
+        <div class='section'>
+            <div class='code'>
+<pre>
+<em class='obj'>var</em> ioc <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'easyioc'</em>)
+<em class='obj'>var</em> example <em class='op'>=</em> { foo:<em class='str'>'bar'</em> }
+
+<em class='cm'>// Add the example object, but name it "models".</em>
+ioc
+.<em class='fn'>add</em>(<em class='str'>'models'</em>, example)
+.<em class='fn'>add</em>(<em class='str'>'app'</em>, app)
+.<em class='fn'>exec</em>()
+
+<em class='obj'>function</em> app(<em class='args'>models</em>){
+    console.<em class='fn'>log</em>(models)
+    <em class='cm'>// prints: { foo: 'bar' }</em>
+}
+</pre>
+            </div>
+        </div>
+
+
+        <div class='section'>
+            <h2>Adding Functions as Modules</h2>
+            <p>Since easyioc treats function argument lists as dependency lists, placing a module
+            like lodash directly into the container won't really work, because the exported object
+            is a function, and easyioc will then look for modules which match the terms in the
+            lodash _() function arguments list, and invoke the function and pass it the modules
+            that were found.</p>
+
+            <p>An easy solution is to return lodash from within a wrapper function.</p>
+            <div class='code'>
+<pre>
+<em class='obj'>var</em> ioc <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'easyioc'</em>)
+
+<em class='cm'>// To put a function in the container, return it from a function...</em>
+<em class='obj'>function</em> example(){
+    return <em class='obj'>function</em>(<em class='args'>input</em>){
+        console.<em class='fn'>log</em>(input)
+    }
+}
+<em class='obj'>function</em> lodash(){
+    return <em class='fn'>require</em>(<em class='str'>'lodash-node'</em>)
+}
+
+ioc
+<em class='cm'>// Example() has no arguments, so Easyioc concludes, "no dependencies".</em>
+.<em class='fn'>add</em>(<em class='str'>'_'</em>, lodash)
+.<em class='fn'>add</em>(<em class='str'>'logger'</em>, example)
+.<em class='fn'>add</em>(<em class='str'>'data'</em>, {foo:<em class='str'>'bar'</em>})
+.<em class='fn'>add</em>(<em class='str'>'app'</em>, app)
+.<em class='fn'>exec</em>()
+
+<em class='obj'>function</em> app(<em class='args'>_, logger, data</em>){
+    <em class='fn'>logger</em>(data)
+    <em class='cm'>// prints: { foo: 'bar' }</em>
+
+    <em class='fn'>logger</em>( <em class='fn'>_</em>(data).<em class='fn'>has</em>(<em class='str'>'foo'</em>) )
+    <em class='cm'>// prints: true</em>
+}
+</pre>
+            </div>
+        </div>
+    </div>

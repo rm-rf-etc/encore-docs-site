@@ -1,0 +1,45 @@
+
+    <div class='body-area'>
+
+        <h1 class='huge'>Server</h1>
+
+        <div class='section'>
+
+            <p>Encore provides an instance of the node.js native HTTP web server object, which has
+            the runway request listener already added as the listener. This means your app still
+            has full control of the node web server object, without needing to reuse boilerplate
+            code in every project.</p>
+
+            <div class='code'>
+<pre>
+<em class='cm'>// Encore's main.js creates the server object like this.</em>
+    <em class='obj'>var</em> router <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'runway'</em>)
+    <em class='obj'>var</em> server <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'http'</em>).<em class='fn'>createServer</em>(router.listener)
+
+<em class='cm'>// And simply adds the server object to the IoC container.</em>
+    <em class='obj'>var</em> easyioc <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'easyioc'</em>)
+    easyioc.<em class='fn'>add</em>( <em class='str'>'server'</em>, server )
+</pre>
+            </div>
+        </div>
+
+        <div class='section'>
+            <p>So then your project can simply start the server as you would normally.</p>
+            <div class='code'>
+<pre>
+<em class='cm'>// Your main.js</em>
+
+<em class='obj'>function</em> app(<em class='args'>router, server</em>){
+
+    <em class='fn'>router</em>(<em class='str'>'/'</em>, <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+        o.<em class='fn'>end</em>(<em class='str'>'hello world'</em>)
+    })
+
+    server.<em class='fn'>listen</em>(<em class='kw'>8080</em>)
+}
+
+<em class='fn'>require</em>(<em class='str'>'encore'</em>)(app) <em class='cm'>// Now go to localhost:8080</em>
+</pre>
+            </div>
+        </div>
+    </div>

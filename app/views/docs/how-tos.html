@@ -1,0 +1,90 @@
+
+    <div class='body-area'>
+        <h1 class='huge'>How-To's</h1>
+
+        <div class='section'>
+            <h2>Hello World</h2>
+            <div class='code'>
+<pre>
+<em class='cm'>// Your main.js</em>
+<em class='fn'>require</em>(<em class='str'>'encore'</em>)(<em class='obj'>function</em>(<em class='args'>router, server</em>){
+
+    <em class='fn'>router</em>(<em class='str'>'/'</em>, <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+        o.<em class='fn'>end</em>(<em class='str'>'hello world'</em>)
+    })
+
+    server.<em class='fn'>listen</em>(<em class='kw'>8080</em>)
+})
+</pre>
+            </div>
+        </div>
+
+
+        <div class='section'>
+            <h2>Make It RESTful?</h2>
+            <div class='code'>
+<pre>
+<em class='cm'>// main.js</em>
+
+<em class='obj'>function</em> app(<em class='args'>router, server, RESTController</em>){
+
+    <em class='obj'>var</em> controller <em class='op'>=</em> <em class='fn'>RESTController</em>({
+        <em class='fn'>get</em>:<em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.<em class='fn'>end</em>(<em class='str'>'get request'</em>)
+        },
+        <em class='fn'>post</em>:<em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
+            o.<em class='fn'>end</em>(<em class='str'>'post request'</em>)
+        }
+    })
+    <em class='fn'>router</em>(<em class='str'>'/'</em>, controller)
+
+    server.<em class='fn'>listen</em>(<em class='kw'>8080</em>)
+}
+
+<em class='fn'>require</em>(<em class='str'>'encore'</em>)(app)
+
+<em class='cm'>// Now go to localhost:8080</em>
+</pre>
+            </div>
+        </div>
+
+
+        <div class='section'>
+            <h2>Loading A Larger Project</h2>
+            <div class='code'>
+<pre>
+<em class='cm'>// main.js</em>
+
+<em class='obj'>function</em> app(<em class='args'>_, ioc, fetchfiles, views, server</em>){
+    _.log <em class='op'>=</em> console.log
+
+    <em class='cm'>// Provide an empty object called 'models'.</em>
+    <em class='cm'>// The model files extend the models object.</em>
+    ioc.<em class='fn'>add</em>(<em class='str'>'models'</em>, {})
+    <em class='fn'>fetchfiles</em>([
+        { path:<em class='str'>'./app/models/'</em>, recursive:<em class='kw'>true</em>, type:<em class='str'>'js'</em>, cb:ioc.add }
+    ])
+    ioc.<em class='fn'>exec</em>() <em class='cm'>// Execute all added modules.</em>
+    
+    <em class='cm'>// Now do the same for controllers.</em>
+    ioc.<em class='fn'>add</em>(<em class='str'>'controllers'</em>, {})
+    <em class='fn'>fetchfiles</em>([
+        { path:<em class='str'>'./app/controllers/'</em>, recursive:<em class='kw'>true</em>, type:<em class='str'>'js'</em>, cb:ioc.add }
+    ])
+    ioc.<em class='fn'>exec</em>()
+
+    <em class='cm'>// We also add the view files using fetchfiles (notice the callback).</em>
+    <em class='fn'>fetchfiles</em>([
+        { path:<em class='str'>'./app/views/'</em>, recursive:<em class='kw'>true</em>, type:<em class='str'>'html'</em>, cb:views.add },
+        { path:<em class='str'>'./app/'</em>, recursive:<em class='kw'>false</em>, type:<em class='str'>'js'</em>, cb:ioc.add }
+    ])
+    ioc.<em class='fn'>exec</em>()
+
+    server.<em class='fn'>listen</em>(<em class='kw'>8124</em>)
+}
+
+<em class='fn'>require</em>(<em class='str'>'encore'</em>)(app)
+</pre>
+            </div>
+        </div>
+    </div>

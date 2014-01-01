@@ -1,0 +1,27 @@
+
+    <div class='body-area'>
+
+        <h1 class='huge'>FileFetcher</h1>
+
+        <div class='section'>
+
+            <p>FileFetcher is a function that finds files matching your rules, and passes
+            the full path to the callback that you provide.
+            <a href='http://npmjs.org/package/filefetcher' target='_blank'>Available through npm</a>.
+            </p>
+        </div>
+
+        <div class='section'>
+            <div class='code'>
+<pre>
+<em class='obj'>var</em> fetchfiles <em class='op'>=</em> <em class='fn'>require</em>(<em class='str'>'filefetcher'</em>)
+
+<em class='fn'>fetchfiles</em>([
+    { path:<em class='str'>'./app/controllers'</em>, recursive:<em class='kw'>true</em>, type:<em class='str'>'js'</em>,   cb:console.<em class='fn'>log</em> },
+    { path:<em class='str'>'./app/models'</em>,      recursive:<em class='kw'>true</em>, type:<em class='str'>'js'</em>,   cb:console.<em class='fn'>log</em> },
+    { path:<em class='str'>'./app/views'</em>,       recursive:<em class='kw'>true</em>, type:<em class='str'>'html'</em>, cb:console.<em class='fn'>log</em> }
+])
+</pre>
+            </div>
+        </div>
+    </div>
