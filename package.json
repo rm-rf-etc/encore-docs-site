@@ -1,14 +1,15 @@
 {
+  "analyze": false,
   "name": "encore-docs",
   "subdomain": "encore",
   "scripts": {
     "start": "main.js"
   },
-  "version": "0.0.0-29",
+  "version": "0.0.0-44",
   "engines": {
     "node": "0.10.x"
   },
   "dependencies": {
-    "encore": "*"
+    "encore": "~0.0.27-beta"
   }
 }

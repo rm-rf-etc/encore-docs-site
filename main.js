@@ -1,18 +1,17 @@
 
-var mvc, port
+var port = 8080
 
 // Prevents app from breaking when deployed to nodejitsu.
 require('fs').exists('../npm-published/encore', function(status){
     if (status) {
         port = 80
-        mvc = require('../npm-published/encore')(app)
+        require('../npm-published/encore')(app)
     }
     else {
         port = 8080
-        mvc = require('encore')(app)
+        require('encore')(app)
     }
 })
-
 
 function app(_, ioc, fetchfiles, views, server){
     _.log = console.log

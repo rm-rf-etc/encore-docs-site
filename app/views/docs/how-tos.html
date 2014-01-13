@@ -82,6 +82,7 @@
     ioc.<em class='fn'>exec</em>()
 
     server.<em class='fn'>listen</em>(<em class='kw'>8124</em>)
+    <em class='cm'>// Using nginx for serving static resources, proxy through port 8124.</em>
 }
 
 <em class='fn'>require</em>(<em class='str'>'encore'</em>)(app)
