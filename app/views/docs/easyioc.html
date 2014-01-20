@@ -7,10 +7,8 @@
             <p>Easyioc is an Inversion of Control container module,
             <a href='http://npmjs.org/package/easyioc' target='_blank'>available through npm</a>.
             Easyioc is the glue that puts everything in the framework together, including all of
-            your project files. You simply add any function (or object) to the IoC container, and
-            it will be executed and stored in the list of available modules. For every argument of
-            a function added to the IoC container, Easyioc will attempt to find a corresponding
-            module having that exact name, and provide that module as the matching parameter.</p>
+            your project files. You add modules to the container. Those modules receive their
+            dependencies automatically from the container when exec() is invoked.</p>
 
             <p>All modules available from the framework by default are listed
             <a href='/docs/modules'>here</a>.</p>
@@ -61,7 +59,7 @@ ioc
 }
 
 ioc
-<em class='cm'>// Example() has no arguments, so Easyioc concludes, "no dependencies".</em>
+<em class='cm'>// example() has no arguments, so Easyioc concludes, "no dependencies".</em>
 .<em class='fn'>add</em>(<em class='str'>'_'</em>, lodash)
 .<em class='fn'>add</em>(<em class='str'>'logger'</em>, example)
 .<em class='fn'>add</em>(<em class='str'>'data'</em>, {foo:<em class='str'>'bar'</em>})
