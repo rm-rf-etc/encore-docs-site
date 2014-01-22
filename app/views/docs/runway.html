@@ -67,20 +67,19 @@ server.<em class='fn'>listen</em>(<em class='kw'>80</em>) <em class='cm'>// For 
             <p>And they allow each route to share a default set of filters, and a default controller.</p>
             <div class='code'>
 <pre>
-<em class='cm'>
-// filters...
-// For more on the arguments convention, see controllers.
-</em>
-<em class='obj'>function</em> isAuth(<em class='args'>i,o,a,r,next</em>){
+
+<em class='cm'>// filters...</em>
+<em class='obj'>function</em> isAuth(<em class='args'>req, res, args, ops, next</em>){
     <em class='cm'>// auth logic goes here</em>
     <em class='fn'>next</em>()
 }
-<em class='obj'>function</em> isMobile(<em class='args'>i,o,a,r,next</em>){
+<em class='obj'>function</em> isMobile(<em class='args'>req, res, args, ops, next</em>){
     <em class='obj'>if</em> (<em class='reg'>/<em class='p'>mobile</em>/<em class='p'>gi</em></em>.<em class='fn'>test</em>(i[<em class='str'>'user-agent'</em>]))
-        r.<em class='fn'>i_redirect</em>(controllers.mobile)
+        ops.<em class='fn'>i_redirect</em>(controllers.mobile)
     <em class='fn'>next</em>()
 }
 
+<em class='cm'>// routes...</em>
 router
 .<em class='fn'>group</em>(<em class='str'>'/home/'</em>, [isAuth, isMobile], controllers.index) <em class='cm'>// Default controller.</em>
     ( <em class='str'>'/things/'</em>, controllers.things ) <em class='cm'>// Override default controller.</em>
@@ -95,9 +94,8 @@ router
 
         <div class='section'>
             <h2>Controller Action Routing</h2>
-            <p>Route filters can be used to create the same functionality as controller action routing,
-            a feature that is popular in other frameworks. We take the route parameters and look for a
-            controller and method which match.</p>
+            <p>Route filters can be used to perform controller "action" style routing. In this example, map reduce is used
+            to find parameters on the controllers object which match the terms in the route.</p>
 
             <div class='code'>
 <pre>
@@ -106,25 +104,25 @@ router
 module.exports <em class='op'>=</em> <em class='obj'>function</em>(<em class='args'>_, router, controllers</em>){
 
     <em class='cm'>// filter</em>
-    <em class='obj'>function</em> toAction(<em class='args'>i,o,a,r,next</em>){
+    <em class='obj'>function</em> toAction(<em class='args'>req, res, args, ops, next</em>){
 
         <em class='cm'>// Look for a property chain matching the sequence in the route parameters.</em>
-        <em class='obj'>var</em> fn <em class='op'>=</em> _.<em class='fn'>reduce</em>(a,<em class='obj'>function</em>(<em class='args'>cumulate, each</em>){
+        <em class='obj'>var</em> fn <em class='op'>=</em> _.<em class='fn'>reduce</em>(args,<em class='obj'>function</em>(<em class='args'>cumulate, each</em>){
             <em class='obj'>return</em> (_.<em class='fn'>has</em>(cumulate, each)) <em class='obj'>?</em> cumulate[each] <em class='obj'>:</em> <em class='kw'>undefined</em>
         }, controllers)
 
         <em class='obj'>if</em> (fn) {
-            r.<em class='fn'>i_redirect</em>(fn)
+            ops.<em class='fn'>i_redirect</em>(fn)
             <em class='fn'>next</em>()
         }
         <em class='obj'>else</em>
-            r.<em class='fn'>error</em>(<em class='kw'>404</em>)
+            ops.<em class='fn'>error</em>(<em class='kw'>404</em>)
     }
 
     <em class='cm'>// A controller to use...
     // (should never get called, but runway requires a controller)</em>
-    <em class='obj'>function</em> error404(<em class='args'>i,o,a,r</em>){
-        r.<em class='fn'>error</em>(<em class='kw'>404</em>)
+    <em class='obj'>function</em> error404(<em class='args'>req, res, args, ops</em>){
+        ops.<em class='fn'>error</em>(<em class='kw'>404</em>)
     }
 
     <em class='fn'>router</em>(<em class='str'>'/{any}/{any}/'</em>, [toAction], error404)
