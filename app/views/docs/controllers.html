@@ -16,26 +16,24 @@
 
 module.exports <em class='op'>=</em> <em class='obj'>function</em>(<em class='args'>_, views, models, filters, controllers, RESTController</em>){
 
-<em class='cm'>// 'i' for 'input': request object
-// 'o' for 'output': response object
-// 'a' for 'arguments': route parameters
-// 'r' for 'routing': methods provided by the router</em>
-
     controllers.index <em class='op'>=</em> <em class='fn'>RESTController</em>({
 
         filters: [filters.isAuth, filters.isMobile],
 
-        <em class='fn'>get</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.end(<em class='str'>'get request'</em>)
+        <em class='fn'>get</em>: <em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'get request'</em>)
         },
-        <em class='fn'>post</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.end(<em class='str'>'post request'</em>)
+        
+        <em class='fn'>post</em>: <em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'post request'</em>)
         },
-        <em class='fn'>put</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.end(<em class='str'>'put request'</em>)
+        
+        <em class='fn'>put</em>: <em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'put request'</em>)
         },
-        <em class='fn'>delete</em>: <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.end(<em class='str'>'delete request'</em>)
+        
+        <em class='fn'>delete</em>: <em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'delete request'</em>)
         }
     })
 }

@@ -9,8 +9,8 @@
 <em class='cm'>// Your main.js</em>
 <em class='fn'>require</em>(<em class='str'>'encore'</em>)(<em class='obj'>function</em>(<em class='args'>router, server</em>){
 
-    <em class='fn'>router</em>(<em class='str'>'/'</em>, <em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-        o.<em class='fn'>end</em>(<em class='str'>'hello world'</em>)
+    <em class='fn'>router</em>(<em class='str'>'/'</em>, <em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+        res.<em class='fn'>end</em>(<em class='str'>'hello world'</em>)
     })
 
     server.<em class='fn'>listen</em>(<em class='kw'>8080</em>) <em class='cm'>// Execute `node main.js`</em>
@@ -29,11 +29,11 @@
 <em class='obj'>function</em> app(<em class='args'>router, server, RESTController</em>){
 
     <em class='obj'>var</em> controller <em class='op'>=</em> <em class='fn'>RESTController</em>({
-        <em class='fn'>get</em>:<em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.<em class='fn'>end</em>(<em class='str'>'get request'</em>)
+        <em class='fn'>get</em>:<em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'get request'</em>)
         },
-        <em class='fn'>post</em>:<em class='obj'>function</em>(<em class='args'>i,o,a,r</em>){
-            o.<em class='fn'>end</em>(<em class='str'>'post request'</em>)
+        <em class='fn'>post</em>:<em class='obj'>function</em>(<em class='args'>req, res, args, ops</em>){
+            res.<em class='fn'>end</em>(<em class='str'>'post request'</em>)
         }
     })
     <em class='fn'>router</em>(<em class='str'>'/'</em>, controller)
