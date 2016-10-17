@@ -1,8 +1,4 @@
 encore-docs-site
 ================
 
-The source for [encore.jit.su](//encore.jit.su).
-
-This project avoids use of static content such as images and stylesheets to make publishing on nodejitsu easy.
-You would otherwise add a `public` directory in the root of the project and configure a server like nginx to
-serve whatever media you have there, be it styles, images, fonts, flash files, etc.
+This is a website you can serve using encore.js. It has basic documentation of the encore.js framework, an MVC project I built while still new to node.js. And instance of this site was available on nodejitsu, but it's been taken down (not by me). I'll soon have it up on another server.
