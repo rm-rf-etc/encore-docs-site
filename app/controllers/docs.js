@@ -1,22 +1,29 @@
 
 module.exports = function(_, views, controllers, helpers){
 
-    // function layout(body){
-    //     return views('layouts.home', { yield:body, stylesheet:views('styles.main') })
-    // }
     var layout = helpers.layout
 
-    controllers.index = function(i,o,a,r){
-        o.end( layout(views('index')) )
+    controllers.index = function(req, res, args, opts){
+        res.end( layout(views('index')) )
     }
-    controllers.docs = function(i,o,a,r){
-        var view = views(_.reduce(a,function(cumulate, arg){
-            return cumulate+'.'+arg
-        }))
+
+    controllers.status = function(req, res){
+        var view = views('status')
+        if (view)
+            res.end( layout(view) )
+        else
+            var errorPage = views('error', { code:404, message:'Page unavailable' })
+            res.end( layout(errorPage) )
+    }
+
+    controllers.docs = function(req, res, args, opts){
+
+        var view = views('docs.'+args[0])
 
         if (view)
-            o.end( layout(view) )
+            res.end( layout(view) )
         else
-            r.error(404)
+            var errorPage = views('error', { code:404, message:'Page unavailable' })
+            res.end( layout(errorPage) )
     }
 }

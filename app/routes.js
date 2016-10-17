@@ -2,10 +2,11 @@
 module.exports = function(views, controllers, router, helpers){
     var c = controllers
 
-    router
+    router.config({ 404: helpers.error })
+
+    router.routes
     ( '/', c.index )
-    ( '/{any}', c.docs )
-    ( '/{any}/{any}', c.docs )
-    .config({ error: helpers.error })
+    ( '/status', c.status )
+    ( '/docs/{any}', c.docs )
 
 }

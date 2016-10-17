@@ -5,17 +5,18 @@ module.exports = function(views){
         return views('layouts.home', { yield:body, stylesheet:views('styles.main') })
     }
     function fixed(view){
-        return function(i,o){ o.end(view) }
+        return function(req, res){ res.end(view) }
     }
-    function error(code,i,o){
+    function error(req, res, code){
         var message = ''
 
+        code = code || 404
         if (code == 404)
             message = 'Page not found.'
         else if (code == 500)
             message = 'Internal server error'
 
-        o.end( layout(views('error', {code:code, message:message} )) )
+        res.end( layout(views('error', {code:code, message:message} )) )
     }
 
     return {fixed:fixed, layout:layout, error:error}

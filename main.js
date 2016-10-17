@@ -16,7 +16,7 @@ require('fs').exists('../npm-published/encore', function(status){
 function app(_, ioc, fetchfiles, views, server){
     _.log = console.log
     ioc.add('helpers', __dirname+'/app/helpers/helpers')
-    
+
     ioc.add('controllers', {})
     fetchfiles([
         { path:'./app/controllers/', recursive:true, type:'js', cb:ioc.add }
